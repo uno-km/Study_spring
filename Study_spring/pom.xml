@@ -50,6 +50,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.4</version>
 		</dependency>
+		<!-- Hikari -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.4.5</version>
+		</dependency>
 		<!-- 파일 업로드 -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
