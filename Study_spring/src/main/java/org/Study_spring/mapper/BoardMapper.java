@@ -1,4 +1,4 @@
-package org.Study_spring.Mapper;
+package org.Study_spring.mapper;
 
 import java.util.List;
 

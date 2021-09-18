@@ -1,6 +1,6 @@
 package org.Study_spring.MapperTests;
 
-import org.Study_spring.Mapper.BoardMapper;
+import org.Study_spring.mapper.BoardMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
