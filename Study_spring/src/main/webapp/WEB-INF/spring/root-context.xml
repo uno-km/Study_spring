@@ -29,7 +29,7 @@
 	</bean>
 
 	<mybatis-spring:scan
-		base-package="org.zerock.mapper" />
+		base-package="org.Study_spring.mapper" />
 	<context:component-scan
-		base-package="org.zerock.sample"></context:component-scan>
+		base-package="org.Study_spring.sample"></context:component-scan>
 </beans>
