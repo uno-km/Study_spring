@@ -1,26 +1,35 @@
-package org.Study_spring.MapperTests;
+package org.zerock.sample;
 
-import org.Study_spring.mapper.BoardMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
 
-public class BoardMapperTests {
+public class SampleTests {
 
-	@Setter(onMethod_ = @Autowired)
-	private BoardMapper mapper;
+	@Autowired
+	private Restaurant restaurant;
+	@Autowired
+	private Hotel hotel;
 
 	@Test
-	void testGetLst() {
-		mapper.getList().forEach(board -> log.info(board));
+	public void testHotel() {
+		log.info(hotel);
 	}
+
+	@Test
+	public void test1() {
+		System.out.println("test1..........");
+		log.info("test1...............");
+		log.info(restaurant);
+
+	}
+
 }
