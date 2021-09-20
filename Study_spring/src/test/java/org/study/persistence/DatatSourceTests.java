@@ -30,9 +30,11 @@ public class DatatSourceTests {
 	@Test
 	public void testConnection() {
 		try (Connection con = ds.getConnection()) {
+			log.info("qwe");
 			log.info(con);
 			log.info("connected succes");
 		} catch (Exception e) {
+			log.info("qwe");
 			fail(e.getMessage());
 		}
 	}
@@ -41,10 +43,12 @@ public class DatatSourceTests {
 	public void testMyBatis() {
 
 		try (SqlSession session = sqlSeesionFactory.openSession(); Connection con = session.getConnection();) {
+			log.info("qwe");
 			log.info(session);
 			log.info(con);
 			log.info("success!!");
 		} catch (Exception e) {
+			log.info("qwe");
 			fail(e.getMessage());
 		}
 
