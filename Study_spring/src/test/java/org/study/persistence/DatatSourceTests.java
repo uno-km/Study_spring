@@ -39,18 +39,18 @@ public class DatatSourceTests {
 		}
 	}
 
-//	@Test
-//	public void testMyBatis() {
-//
-//		try (SqlSession session = sqlSeesionFactory.openSession(); Connection con = session.getConnection();) {
-//			log.info("qwe");
-//			log.info(session);
-//			log.info(con);
-//			log.info("success!!");
-//		} catch (Exception e) {
-//			log.info("qwe");
-//			fail(e.getMessage());
-//		}
-//
-//	}
+	@Test
+	public void testMyBatis() {
+
+		try (SqlSession session = sqlSeesionFactory.openSession(); Connection con = session.getConnection();) {
+			log.info("qwe");
+			log.info(session);
+			log.info(con);
+			log.info("success!!");
+		} catch (Exception e) {
+			log.info("qwe");
+			fail(e.getMessage());
+		}
+
+	}
 }
