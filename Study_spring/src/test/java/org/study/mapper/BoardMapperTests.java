@@ -26,9 +26,9 @@ public class BoardMapperTests {
 	@Test
 	public void testInsert() {
 		BoardVO board = new BoardVO();
-		board.setTitle("새로 작성하는 글");
-		board.setContent("새로 작성하는 내용");
-		board.setWriter("newbie");
+		board.setTitle("안녕하세요^^");
+		board.setContent("내용입니다~~!");
+		board.setWriter("신규가입자");
 
 		mapper.insert(board);
 
@@ -55,6 +55,18 @@ public class BoardMapperTests {
 
 	@Test
 	public void testDelete() {
-		log.info("DELETE COUNT : " + mapper.delete(3L));
+		log.info("DELETE COUNT : " + mapper.delete(1L));
+	}
+
+	@Test
+	public void update() {
+		BoardVO vo = new BoardVO();
+		vo.setBno(2L);
+		vo.setTitle("Update Title");
+		vo.setContent("update content");
+		vo.setWriter("uno");
+
+		log.info("count : " + mapper.update(vo));
+
 	}
 }
