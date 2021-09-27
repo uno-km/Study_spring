@@ -21,18 +21,19 @@ import lombok.extern.log4j.Log4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 //@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml",
+@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/root-context.xml",
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
 @Log4j
 public class BoardServiceTests {
 	@Setter(onMethod_ = { @Autowired })
+	private WebApplicationContext wac;
 	private BoardService s;
-	private WebApplicationContext ctx;
 	private MockMvc mockMvc;
 
 	@Before
 	public void setup() {
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+		log.info("wac : " + wac);
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 
 	@Test
@@ -40,13 +41,25 @@ public class BoardServiceTests {
 		log.info(
 				mockMvc.perform(MockMvcRequestBuilders.get("/board/list")).andReturn().getModelAndView().getModelMap());
 	}
-//	@Test
-//	public void testList() throws Exception {
-//		log.info(mockMvc
-//				.perform(MockMvcRequestBuilders.get("/board/list").param("title", "test 테스트")
-//						.param("content", "content 테스트").param("writer", "writer 테스트"))
-//				.andReturn().getModelAndView().getModelMap());
-//	}
+
+	@Test
+	public void testRegi() throws Exception {
+		log.info(mockMvc
+				.perform(MockMvcRequestBuilders.post("/board/register").param("title", "test 테스트")
+						.param("content", "content 테스트").param("writer", "writer 테스트"))
+				.andReturn().getModelAndView().getModelMap());
+	}
+
+	@Test
+	public void modify() throws Exception {
+		String resultPage = mockMvc
+				.perform(
+						MockMvcRequestBuilders.post("/board/modify").param("bno", "42").param("title", "modified title")
+								.param("content", "modified content").param("writer", "modified writer 테스트"))
+				.andReturn().getModelAndView().getViewName();
+
+		log.info(resultPage);
+	}
 
 	@Test
 	public void testPrint() {
