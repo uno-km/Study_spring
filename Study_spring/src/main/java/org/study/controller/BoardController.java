@@ -29,6 +29,12 @@ public class BoardController {
 		model.addAttribute("list", service.getList());
 	}
 
+	@GetMapping("/get")
+	public void get(@RequestParam("bno") Long bno, Model model) {
+		log.info("/get");
+		model.addAttribute("board", service.get(bno));
+	}
+
 	@GetMapping("/register")
 	public void register() {
 	}
