@@ -52,10 +52,9 @@ public class BoardServiceTests {
 
 	@Test
 	public void modify() throws Exception {
-		String resultPage = mockMvc
-				.perform(
-						MockMvcRequestBuilders.post("/board/modify").param("bno", "42").param("title", "modified title")
-								.param("content", "modified content").param("writer", "modified writer 테스트"))
+		String resultPage = mockMvc.perform(
+				MockMvcRequestBuilders.post("/board/modify").param("bno", "42").param("title", "42번 제목 바꿨지롱 title")
+						.param("content", "modified content").param("writer", "modified writer 테스트"))
 				.andReturn().getModelAndView().getViewName();
 
 		log.info(resultPage);
@@ -82,6 +81,21 @@ public class BoardServiceTests {
 	@Test
 	public void testGetList() {
 		s.getList().forEach(board -> log.info(board));
+	}
+
+	@Test
+	public void testDelete() {
+		log.info("remove result : " + s.remove(2L));
+	}
+
+	@Test
+	public void testUpdate() {
+		BoardVO b = s.get(2L);
+		if (b == null) {
+			return;
+		}
+		b.setTitle("Modified Title");
+		log.info("Update result : " + s.modify(b));
 	}
 
 	@Test
