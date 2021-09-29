@@ -62,7 +62,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 
-	@PostMapping("/delete")
+	@PostMapping("/remove")
 	public String delete(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		if (service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
