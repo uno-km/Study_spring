@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.study.domain.BoardVO;
 import org.study.domain.Criteria;
+import org.study.domain.pageDTO;
 import org.study.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public class BoardController {
 		log.info("list..................... : " + cri);
 
 		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new pageDTO(cri, 123));
 	}
 
 //	@GetMapping("/get")

@@ -72,11 +72,20 @@ public class BoardMapperTests {
 		log.info("count : " + mapper.update(vo));
 
 	}
+//	
+//	@Test
+//	public void testPaging() {
+//		Criteria cri = new Criteria();
+//		List<BoardVO> list = mapper.getListWithPaging(cri);
+//		list.forEach(board -> log.info(board));
+//	}
 
 	@Test
 	public void testPaging() {
-		Criteria cri = new Criteria();
+		Criteria cri = new Criteria(3, 10);
+
 		List<BoardVO> list = mapper.getListWithPaging(cri);
-		list.forEach(board -> log.info(board));
+		list.forEach(board -> log.info(board.getBno()));
+
 	}
 }

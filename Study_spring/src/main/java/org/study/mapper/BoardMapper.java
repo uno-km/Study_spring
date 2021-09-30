@@ -12,6 +12,8 @@ public interface BoardMapper {
 
 	public List<BoardVO> getListWithPaging(Criteria cri);
 
+	public List<BoardVO> getListWithPaging2(Criteria cri);
+
 	public void insert(BoardVO board);
 
 	public void insertSelectKey(BoardVO board);
