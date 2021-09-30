@@ -40,4 +40,28 @@ public class BoardControllerTests {
 		log.info(
 				mockMvc.perform(MockMvcRequestBuilders.get("/board/list")).andReturn().getModelAndView().getModelMap());
 	}
+
+	@Test
+	public void testRegi() throws Exception {
+		log.info(mockMvc
+				.perform(MockMvcRequestBuilders.post("/board/register").param("title", "test 테스트")
+						.param("content", "content 테스트").param("writer", "writer 테스트"))
+				.andReturn().getModelAndView().getModelMap());
+	}
+
+	@Test
+	public void modify() throws Exception {
+		String resultPage = mockMvc.perform(
+				MockMvcRequestBuilders.post("/board/modify").param("bno", "42").param("title", "42번 제목 바꿨지롱 title")
+						.param("content", "modified content").param("writer", "modified writer 테스트"))
+				.andReturn().getModelAndView().getViewName();
+
+		log.info(resultPage);
+	}
+
+	@Test
+	public void testListPaging() throws Exception {
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/list").param("pageNum", "2").param("amount", "50"))
+				.andReturn().getModelAndView().getModelMap());
+	}
 }
