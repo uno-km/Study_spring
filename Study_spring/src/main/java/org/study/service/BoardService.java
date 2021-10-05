@@ -19,4 +19,6 @@ public interface BoardService {
 	public List<BoardVO> getList(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board); // 아직추가안됨
+	
+	public int getTotal(Criteria cri);
 }
