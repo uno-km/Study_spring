@@ -19,6 +19,9 @@
 						<when test="type == 'W'.toString()">
 							writer like '%'||#{keyword}||'%'
 						</when>
+						<when test="type == 'B'.toString()">
+							bno like '%'||#{keyword}||'%'
+						</when>
 					</choose>
 				</trim>
 			</foreach>
