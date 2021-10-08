@@ -27,6 +27,11 @@ import lombok.extern.log4j.Log4j;
 public class ReplyController {
 	private ReplyService service;
 
+	@GetMapping("/test")
+	public void test() {
+		log.info("connection success");
+	}
+
 	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 
@@ -40,12 +45,27 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@GetMapping(value = "/{rno}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno) {
+	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
 
-		log.info("get: " + rno);
+		Criteria cri = new Criteria(page, 10);
 
-		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
+		log.info("get Reply List bno: " + bno);
+
+		log.info("cri:" + cri);
+
+		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+	}
+
+	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+
+		log.info("remove: " + rno);
+
+		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
 	}
 
 	@RequestMapping(method = { RequestMethod.PUT,
@@ -63,15 +83,14 @@ public class ReplyController {
 
 	}
 
-	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+	@GetMapping(value = "/{rno}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno) {
 
-		log.info("remove: " + rno);
+		log.info("get: " + rno);
 
-		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
+		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
+<<<<<<< HEAD
 
 	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -99,4 +118,6 @@ public class ReplyController {
 //		return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
 //	}
 
+=======
+>>>>>>> branch 'REST_study' of https://github.com/uno-km/Study_spring.git
 }
