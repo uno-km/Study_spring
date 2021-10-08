@@ -79,25 +79,86 @@
 	<!-- end panel -->
 </div>
 <!-- /.row -->
+<div class='row'>
+
+	<div class="col-lg-12">
+
+		<!-- /.panel -->
+		<div class="panel panel-default">
+			<!--       <div class="panel-heading">
+        <i class="fa fa-comments fa-fw"></i> Reply
+      </div> -->
+
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"></i> Reply
+				<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New
+					Reply</button>
+			</div>
+
+
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+
+				<ul class="chat">
+					<li class="left clearfix" data-rno='12'>
+					<div class="header">
+						<strong>여기에 작성자</strong> <small class="pull-rigth text-mute">2021-10-08
+							13:00</small>
+					</div>
+					<p>여기에 댓글 내용이 들어간다!!</p>
+					</li>
+				</ul>
+				<!-- ./ end ul -->
+			</div>
+			<!-- /.panel .chat-panel -->
+
+			<div class="panel-footer"></div>
+
+
+		</div>
+	</div>
+	<!-- ./ end row -->
+</div>
+
+
 <script type="text/javascript" src="/resources/js/reply.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() { //나중에 이 스크립트 삭제해야함
-		console.log(replyService);
+		console.log("hello");
+		var bnoValue = '<c:out value ="${board.bno}"/>';
+		var replyUL = $(".chat");
+		showList(1);
+		console.log(bnoValue);
+		 function showList(page){
+			 console.log("show list : " + page);
+		     replyService.getList({bno:bnoValue,page: page|| 1 }, function(list) {
+		     var str="";
+		     if(list == null || list.length == 0){
+		    	console.log("댓글이없습니다.");
+		        replyUL.html("");
+		        return;
+		      }
+		     for (var i = 0, len = list.length || 0; i < len; i++) {
+		    	   console.log("list : "+list[i].rno);
+		           str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+		           str +="  <div><div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>"; 
+		           str +="    <small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
+		           str +="    <p>"+list[i].reply+"</p></div></li>";
+		         }
+		    replyUL.html(str);
+		      });//end function
+		   }
 	});
+	
 </script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		var operForm = $("#operForm");
-
 		$("button[data-oper='modify']").on("click", function(e) {
-
 			operForm.attr("action", "/board/modify").submit();
-
 		});
-
 		$("button[data-oper='list']").on("click", function(e) {
 
 			operForm.find("#bno").remove();
@@ -108,10 +169,10 @@
 	});
 </script>
 <script>
-	console.log("===============");
-	console.log("JS TEST");
+// 	console.log("===============");
+// 	console.log("JS TEST");
 
-	var bnoValue = '<c:out value="${board.bno}"/>';
+// 	var bnoValue = '<c:out value="${board.bno}"/>';
 
 	//추가 테스트
 	/* replyService.add(
@@ -156,10 +217,6 @@
 
 	});  
 	 */
-	 
-	 replyService.get(15, fuction(data){
-		 console.log(data);
-	 });
 </script>
 
 
