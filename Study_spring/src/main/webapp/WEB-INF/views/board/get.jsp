@@ -156,6 +156,10 @@
 
 	});  
 	 */
+	 
+	 replyService.get(15, fuction(data){
+		 console.log(data);
+	 });
 </script>
 
 
