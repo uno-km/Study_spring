@@ -100,13 +100,7 @@
 			<div class="panel-body">
 
 				<ul class="chat">
-					<li class="left clearfix" data-rno='12'>
-					<div class="header">
-						<strong>여기에 작성자</strong> <small class="pull-rigth text-mute">2021-10-08
-							13:00</small>
-					</div>
-					<p>여기에 댓글 내용이 들어간다!!</p>
-					</li>
+
 				</ul>
 				<!-- ./ end ul -->
 			</div>
@@ -119,38 +113,90 @@
 	</div>
 	<!-- ./ end row -->
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Reply</label> <input class="form-control" name='reply'
+						value='New Reply!!!!'>
+				</div>
+				<div class="form-group">
+					<label>Replyer</label> <input class="form-control" name='replyer'
+						value='replyer'>
+				</div>
+				<div class="form-group">
+					<label>Reply Date</label> <input class="form-control"
+						name='replyDate' value='2018-01-01 13:13'>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+				<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+				<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+				<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 
 <script type="text/javascript" src="/resources/js/reply.js"></script>
 
 <script type="text/javascript">
-	$(document).ready(function() { //나중에 이 스크립트 삭제해야함
-		console.log("hello");
-		var bnoValue = '<c:out value ="${board.bno}"/>';
-		var replyUL = $(".chat");
-		showList(1);
-		console.log(bnoValue);
-		 function showList(page){
-			 console.log("show list : " + page);
-		     replyService.getList({bno:bnoValue,page: page|| 1 }, function(list) {
-		     var str="";
-		     if(list == null || list.length == 0){
-		    	console.log("댓글이없습니다.");
-		        replyUL.html("");
-		        return;
-		      }
-		     for (var i = 0, len = list.length || 0; i < len; i++) {
-		    	   console.log("list : "+list[i].rno);
-		           str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
-		           str +="  <div><div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>"; 
-		           str +="    <small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
-		           str +="    <p>"+list[i].reply+"</p></div></li>";
-		         }
-		    replyUL.html(str);
-		      });//end function
-		   }
-	});
-	
+	$(document)
+			.ready(
+					function() { //나중에 이 스크립트 삭제해야함
+						var bnoValue = '<c:out value ="${board.bno}"/>';
+						var replyUL = $(".chat");
+						showList(1);
+						console.log(bnoValue);
+						function showList(page) {
+							console.log("show list : " + page);
+							replyService
+									.getList(
+											{
+												bno : bnoValue,
+												page : page || 1
+											},
+											function(list) {
+												var str = "";
+												if (list == null
+														|| list.length == 0) {
+													console.log("댓글이없습니다.");
+													replyUL.html("");
+													return;
+												}
+												for (var i = 0, len = list.length || 0; i < len; i++) {
+													console.log("list : "
+															+ list[i].rno);
+													str += "<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+													str += "  <div><div class='header'><strong class='primary-font'>"
+															+ list[i].replyer
+															+ "</strong>";
+													str += "    <small class='pull-right text-muted'>"
+															+ replyService
+																	.displayTime(list[i].replyDate)
+															+ "</small></div>";
+													str += "    <p>"
+															+ list[i].reply
+															+ "</p></div></li>";
+												}
+												replyUL.html(str);
+											});//end function
+						}
+					});
 </script>
 
 <script type="text/javascript">
@@ -169,10 +215,10 @@
 	});
 </script>
 <script>
-// 	console.log("===============");
-// 	console.log("JS TEST");
+	// 	console.log("===============");
+	// 	console.log("JS TEST");
 
-// 	var bnoValue = '<c:out value="${board.bno}"/>';
+	// 	var bnoValue = '<c:out value="${board.bno}"/>';
 
 	//추가 테스트
 	/* replyService.add(
