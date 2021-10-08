@@ -196,57 +196,70 @@
 												replyUL.html(str);
 											});//end function
 						}
-					    var modal = $(".modal");
-					    var modalInputReply = modal.find("input[name='reply']");
-					    var modalInputReplyer = modal.find("input[name='replyer']");
-					    var modalInputReplyDate = modal.find("input[name='replyDate']");
-					    
-					    var modalModBtn = $("#modalModBtn");
-					    var modalRemoveBtn = $("#modalRemoveBtn");
-					    var modalRegisterBtn = $("#modalRegisterBtn");
-						
-						$("#addReplyBtn").on("click",function(e){
+						$("#modalCloseBtn").on("click", function(e) {
+
+							modal.modal('hide');
+						});
+						var modal = $(".modal");
+						var modalInputReply = modal.find("input[name='reply']");
+						var modalInputReplyer = modal
+								.find("input[name='replyer']");
+						var modalInputReplyDate = modal
+								.find("input[name='replyDate']");
+
+						var modalModBtn = $("#modalModBtn");
+						var modalRemoveBtn = $("#modalRemoveBtn");
+						var modalRegisterBtn = $("#modalRegisterBtn");
+
+						$("#addReplyBtn").on("click", function(e) {
 							modal.find("input").val("");
 							modalInputReplyDate.closest("div").hide();
 							modal.find("button[id!='modalCloseBtn']").hide();
-							
+
 							modalRegisterBtn.show();
-							
+
 							$(".modal").modal("show");
 						});
 
+						modalRegisterBtn.on("click", function(e) {
 
-					    modalRegisterBtn.on("click",function(e){
-					      
-					      var reply = {
-					            reply: modalInputReply.val(),
-					            replyer:modalInputReplyer.val(),
-					            bno:bnoValue
-					          };
-					      replyService.add(reply, function(result){
-					        
-					        alert(result);
-					        
-					        modal.find("input").val("");
-					        modal.modal("hide");
-					        
-					        //showList(1);
-					        showList(-1);
-					        
-					      });
-					      
-					      $("#addReplyBtn").on("click", function(e){
-					          
-					          modal.find("input").val("");
-					          modalInputReplyDate.closest("div").hide();
-					          modal.find("button[id !='modalCloseBtn']").hide();
-					          
-					          modalRegisterBtn.show();
-					          
-					          $(".modal").modal("show");
-					          
-					        });
-					});
+							var reply = {
+								reply : modalInputReply.val(),
+								replyer : modalInputReplyer.val(),
+								bno : bnoValue
+							};
+							replyService.add(reply, function(result) {
+
+								alert(result);
+
+								modal.find("input").val("");
+								modal.modal("hide");
+
+								showList(1);
+							});
+						});
+						  $(".chat").on("click", "li", function(e){
+						      
+						      var rno = $(this).data("rno");
+						      
+						      replyService.get(rno, function(reply){
+						      
+						        modalInputReply.val(reply.reply);
+						        modalInputReplyer.val(reply.replyer);
+						        modalInputReplyDate.val(replyService.displayTime( reply.replyDate))
+						        .attr("readonly","readonly");
+						        modal.data("rno", reply.rno);
+						        
+						        modal.find("button[id !='modalCloseBtn']").hide();
+						        modalModBtn.show();
+						        modalRemoveBtn.show();
+						        
+						        $(".modal").modal("show");
+						            
+						      });
+						    });
+
+	});
 </script>
 
 <script type="text/javascript">
