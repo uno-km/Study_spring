@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.study.domain.Criteria;
+import org.study.domain.ReplyPageDTO;
 import org.study.domain.ReplyVO;
 import org.study.mapper.ReplyMapper;
 
@@ -46,9 +47,10 @@ public class ReplyServiceImpl implements ReplyService {
 		log.info("get Reply List of a Board " + bno);
 		return mapper.getListWithPaging(cri, bno);
 	}
-//	@Override
-//	public ReplyPageDTO getListPage(Criteria cri, Long bno) {
-//
-//		return new ReplyPageDTO(mapper.getCountByBno(bno), mapper.getListWithPaging(cri, bno));
-//	}
+
+	@Override
+	public ReplyPageDTO getListPage(Criteria cri, Long bno) {
+
+		return new ReplyPageDTO(mapper.getCountByBno(bno), mapper.getListWithPaging(cri, bno));
+	}
 }
