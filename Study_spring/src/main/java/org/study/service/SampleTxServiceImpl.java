@@ -2,6 +2,7 @@ package org.study.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.study.mapper.Sample1Mapper;
 import org.study.mapper.Sample2Mapper;
 
@@ -18,6 +19,7 @@ public class SampleTxServiceImpl implements SampleTxService {
 	@Setter(onMethod_ = { @Autowired })
 	private Sample2Mapper mapper2;
 
+	@Transactional(rollbackFor =Exception.class) 
 	@Override
 	public void addData(String value) {
 		// TODO Auto-generated method stub
