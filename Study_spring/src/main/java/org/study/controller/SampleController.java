@@ -11,9 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.study.domain.SampleVO;
+import org.study.domain.Ticket;
 
 import lombok.extern.log4j.Log4j;
 
@@ -82,5 +85,11 @@ public class SampleController {
 	public String[] getPath(@PathVariable("cat") String cat, @PathVariable("pid") Integer pid) {
 		log.info("MIME TYPE : " + MediaType.TEXT_PLAIN_VALUE);
 		return new String[] { "category : " + cat, "productid : " + pid };
+	}
+
+	@PostMapping("/ticket")
+	public Ticket convert(@RequestBody Ticket ticket) {
+		log.info("convert.......ticket" + ticket);
+		return ticket;
 	}
 }
