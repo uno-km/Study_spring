@@ -61,13 +61,13 @@
 	</logger>
 
 	<logger name="jdbc.sqltiming" additivity="false">
-		<level value="warn" />
+		<level value="info" />
 		<appender-ref ref="console" />
 	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 

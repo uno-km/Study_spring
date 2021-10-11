@@ -35,7 +35,7 @@ public class BoardMapperTests {
 
 		mapper.insert(board);
 
-		log.info(board);
+		log.info(board);//
 	}
 
 	@Test
