@@ -175,7 +175,7 @@ showList(1);
 console.log(bnoValue);
 function showList(page) {
 console.log("show list " + page);
-replyService.getList({
+listService.getList({
 bno : bnoValue,
 page : page || 1
 },function(replyCnt, list) {
