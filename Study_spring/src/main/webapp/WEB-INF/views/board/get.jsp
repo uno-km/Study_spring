@@ -244,6 +244,18 @@
 					      
 					      replyPageFooter.html(str);
 					    }
+					    replyPageFooter.on("click","li a", function(e){
+					        e.preventDefault();
+					        console.log("page click");
+					        
+					        var targetPageNum = $(this).attr("href");
+					        
+					        console.log("targetPageNum: " + targetPageNum);
+					        
+					        pageNum = targetPageNum;
+					        
+					        showList(pageNum);
+					      });     
 						$("#modalCloseBtn").on("click", function(e) {
 
 							modal.modal('hide');
@@ -301,7 +313,8 @@
 
 								alert(result);
 								modal.modal("hide");
-								showList(1);
+								showList(pageNum);
+								//showList(1);
 
 							});
 
@@ -314,7 +327,8 @@
 
 								alert(result);
 								modal.modal("hide");
-								showList(1);
+								showList(pageNum);
+								//showList(1);
 
 							});
 
