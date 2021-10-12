@@ -23,7 +23,7 @@ public class UploadController {
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
 
-		String uploadFolder = "C:\\upload";
+		String uploadFolder = "C:\\programing\\upload";
 
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -35,6 +35,7 @@ public class UploadController {
 
 			try {
 				multipartFile.transferTo(saveFile);
+				log.info("업로드 성공!");
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			} // end catch
