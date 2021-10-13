@@ -3,6 +3,7 @@ package org.study.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -168,4 +171,27 @@ public class UploadController {
 		}
 		return result;
 	}
+
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(String fileName) {
+
+		log.info("download file: " + fileName);
+
+		Resource resource = new FileSystemResource("C:\\programing\\upload\\" + fileName);
+
+		log.info("resource: " + resource);
+
+		String resourceName = resource.getFilename();
+
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			headers.add("Content-Disposition",
+					"attachment; filename=" + new String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+
 }
