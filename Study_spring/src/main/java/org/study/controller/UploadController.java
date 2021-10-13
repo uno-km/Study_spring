@@ -1,6 +1,9 @@
 package org.study.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -12,10 +15,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j
 public class UploadController {
+
+	private boolean checkImageType(File file) {
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+			return contentType.startsWith("image");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	private String getFolder() {
 		SimpleDateFormat t = new SimpleDateFormat("yyyy-mm-dd");
@@ -90,15 +105,22 @@ public class UploadController {
 
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
 
-			File saveFile = new File(uploadPath, uploadFileName);
-
 			try {
-
+				File saveFile = new File(uploadPath, uploadFileName);
 				multipartFile.transferTo(saveFile);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			} // end catch
+				// check image type file
+				if (checkImageType(saveFile)) {
 
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "thumb_" + uploadFileName));
+
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+
+					thumbnail.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} // end catch
 		} // end for
 
 	}
