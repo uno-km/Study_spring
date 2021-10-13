@@ -19,7 +19,6 @@
 
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|html|jsp)$");
 			var maxSize = 5242880; //5MB
-
 			function checkExtension(fileName, fileSize) {
 
 				if (fileSize >= maxSize) {
@@ -33,6 +32,8 @@
 				return true;
 			}
 
+			var cloneObj = $(".uploadDiv").clone();
+			
 			$("#uploadBtn").on("click", function(e) {
 
 				var formData = new FormData();
@@ -42,8 +43,6 @@
 				var inputFile = $("input[name='uploadFile']");
 
 				var files = inputFile[0].files;
-
-				//console.log(files);
 
 				for (var i = 0; i < files.length; i++) {
 
