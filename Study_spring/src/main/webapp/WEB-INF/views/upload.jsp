@@ -11,11 +11,34 @@
 		<input type='file' name='uploadFile' multiple>
 	</div>
 	<button id='uploadBtn'>Upload</button>
+	<div class='uploadResult'>
+		<ul>
+
+		</ul>
+	</div>
+
+
+
+
+
+
 	<script src="https://code.jquery.com/jquery-3.6.0.js"
 		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 		crossorigin="anonymous"></script>
 	<script>
 		$(document).ready(function() {
+			var uploadResult = $(".uploadResult ul");
+			function showUploadedFile(uploadResultArr){
+			    var str = "";
+			    $(uploadResultArr).each(function(i, obj){
+			      if(!obj.image){
+			        str += "<li><img src='/resources/img/attach.png'>"+obj.fileName+"</li>";
+			      }else{
+			        str += "<li>"+ obj.fileName+"</li>";
+			      }
+			    });
+			    uploadResult.append(str);
+			  }
 
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|html|jsp)$");
 			var maxSize = 5242880; //5MB
@@ -33,7 +56,7 @@
 			}
 
 			var cloneObj = $(".uploadDiv").clone();
-			
+
 			$("#uploadBtn").on("click", function(e) {
 
 				var formData = new FormData();
@@ -63,6 +86,7 @@
 
 						console.log(result);
 
+						showUploadedFile(result);
 						$(".uploadDiv").html(cloneObj.html());
 
 					}
