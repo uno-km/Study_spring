@@ -207,7 +207,7 @@ public class UploadController {
 		log.info("deleteFile: " + fileName);
 		File file;
 		try {
-			file = new File("c:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File("C:\\programing\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
 			file.delete();
 			if (type.equals("image")) {
 				String largeFileName = file.getAbsolutePath().replace("thumb_", "");
