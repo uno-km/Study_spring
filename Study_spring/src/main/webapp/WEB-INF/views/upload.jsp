@@ -16,6 +16,10 @@
 
 		</ul>
 	</div>
+	<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
 
 
 
@@ -26,23 +30,33 @@
 		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 		crossorigin="anonymous"></script>
 	<script>
-		$(document).ready(function() {
-			var uploadResult = $(".uploadResult ul");
-			function showUploadedFile(uploadResultArr){
-			    var str = "";
-			    $(uploadResultArr).each(function(i, obj){
-			        if(!obj.image){
-			          var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
-			          str += "<li><a href='/download?fileName="+fileCallPath+"'>" 
-			        		  +"<img src='/resources/img/attach.png'>"+obj.fileName+"</a></li>"
-			        }else{
-			          var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/thumb_"+obj.uuid +"_"+obj.fileName);
-			          str += "<li><img src='/display?fileName="+fileCallPath+"'><li>";
-			        }
-			    });
-			    uploadResult.append(str);
-			  } 
-			
+	function showImage(fileCallPath){
+		$(".bigPictureWrapper").show();
+		$(".bigPicture")
+		.html("<img src='/display?fileName="+fileCallPath+"'>");
+	}
+	 function showUploadedFile(uploadResultArr){
+		   var str = "";
+		   $(uploadResultArr).each(function(i, obj){
+		     if(!obj.image){
+		       var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
+		       var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+		       str += "<li><div><a href='/download?fileName="+fileCallPath+"'>"+
+		           "<img src='/resources/img/attach.png'>"+obj.fileName+"</a>"+
+		           "<span data-file=\'"+fileCallPath+"\' data-type='file'> x </span>"+
+		           "<div></li>"
+		     }else{
+		       var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/thumb_"+obj.uuid +"_"+obj.fileName);
+		       var originPath = obj.uploadPath+ "\\"+obj.uuid +"_"+obj.fileName;
+		       originPath = originPath.replace(new RegExp(/\\/g),"/");
+		       str += "<li><a href=\"javascript:showImage(\'"+originPath+"\')\">"+
+		              "<img src='display?fileName="+fileCallPath+"'></a>"+
+		              "<span data-file=\'"+fileCallPath+"\' data-type='image'> x </span>"+
+		              "<li>";
+		     }
+		   });
+		   uploadResult.append(str);
+		 }
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|html|jsp)$");
 			var maxSize = 5242880; //5MB
 			function checkExtension(fileName, fileSize) {
