@@ -35,28 +35,47 @@
 		$(".bigPicture")
 		.html("<img src='/display?fileName="+fileCallPath+"'>");
 	}
-	 function showUploadedFile(uploadResultArr){
-		   var str = "";
-		   $(uploadResultArr).each(function(i, obj){
-		     if(!obj.image){
-		       var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
-		       var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-		       str += "<li><div><a href='/download?fileName="+fileCallPath+"'>"+
-		           "<img src='/resources/img/attach.png'>"+obj.fileName+"</a>"+
-		           "<span data-file=\'"+fileCallPath+"\' data-type='file'> x </span>"+
-		           "<div></li>"
-		     }else{
-		       var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/thumb_"+obj.uuid +"_"+obj.fileName);
-		       var originPath = obj.uploadPath+ "\\"+obj.uuid +"_"+obj.fileName;
-		       originPath = originPath.replace(new RegExp(/\\/g),"/");
-		       str += "<li><a href=\"javascript:showImage(\'"+originPath+"\')\">"+
-		              "<img src='display?fileName="+fileCallPath+"'></a>"+
-		              "<span data-file=\'"+fileCallPath+"\' data-type='image'> x </span>"+
-		              "<li>";
-		     }
-		   });
-		   uploadResult.append(str);
-		 }
+	$(".uploadResult").on("click","span", function(e){
+		   
+		  var targetFile = $(this).data("file");
+		  var type = $(this).data("type");
+		  console.log(targetFile);
+		  
+		  $.ajax({
+		    url: '/deleteFile',
+		    data: {fileName: targetFile, type:type},
+		    dataType:'text',
+		    type: 'POST',
+		      success: function(result){
+		         alert(result);
+		       }
+		  }); //$.ajax
+		  
+		});
+		$(document).ready(function() {
+			var uploadResult = $(".uploadResult ul");
+			function showUploadedFile(uploadResultArr){
+				   var str = "";
+				   $(uploadResultArr).each(function(i, obj){
+				     if(!obj.image){
+				       var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
+				       var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+				       str += "<li><div><a href='/download?fileName="+fileCallPath+"'>"+
+				           "<img src='/resources/img/attach.png'>"+obj.fileName+"</a>"+
+				           "<span data-file=\'"+fileCallPath+"\' data-type='file'> x </span>"+
+				           "<div></li>"
+				     }else{
+				       var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/thumb_"+obj.uuid +"_"+obj.fileName);
+				       var originPath = obj.uploadPath+ "\\"+obj.uuid +"_"+obj.fileName;
+				       originPath = originPath.replace(new RegExp(/\\/g),"/");
+				       str += "<li><a href=\"javascript:showImage(\'"+originPath+"\')\">"+
+				              "<img src='display?fileName="+fileCallPath+"'></a>"+
+				              "<span data-file=\'"+fileCallPath+"\' data-type='image'> x </span>"+
+				              "<li>";
+				     }
+				   });
+				   uploadResult.append(str);
+				 }
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|html|jsp)$");
 			var maxSize = 5242880; //5MB
 			function checkExtension(fileName, fileSize) {
