@@ -53,11 +53,12 @@ public class BoardServiceImp implements BoardService {
 		log.info("modify...............: " + board);
 		return mapper.update(board) == 1;
 	}
-
+	@Transactional
 	@Override
 	public boolean remove(Long bno) {
 		// TODO Auto-generated method stub
 		log.info("remove .............." + bno);
+		attachMapper.deleteAll(bno);
 		return mapper.delete(bno) == 1;
 	}
 
@@ -94,5 +95,4 @@ public class BoardServiceImp implements BoardService {
 		log.info("get Attach list by bno" + bno);
 		return attachMapper.findByBno(bno);
 	}
-
 }
