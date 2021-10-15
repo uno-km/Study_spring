@@ -55,14 +55,6 @@ public class BoardController {
 			} // end catch
 		});// end foreachd
 	}
-
-//	@GetMapping("/list")
-//	public void list(Model model) {
-//
-//		log.info("list..................... : ";
-//
-//		model.addAttribute("list", service.getList());
-//	}
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		log.info("list..................... : " + cri);
@@ -72,12 +64,6 @@ public class BoardController {
 		log.info("total : " + total);
 		model.addAttribute("pageMaker", new pageDTO(cri, total));
 	}
-
-//	@GetMapping("/get")
-//	public void get(@RequestParam("bno") Long bno, Model model) {
-//		log.info("/get");
-//		model.addAttribute("board", service.get(bno));
-//	}
 
 	@GetMapping("/register")
 	public void register() {
