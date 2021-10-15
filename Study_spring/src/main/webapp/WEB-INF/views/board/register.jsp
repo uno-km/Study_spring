@@ -178,3 +178,5 @@ $(document).ready(function(e){
 
 
 <%@include file="../include/footer.jsp"%>
+
+<%@include file="../css/attach.css"%>
