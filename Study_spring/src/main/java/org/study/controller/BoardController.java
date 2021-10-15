@@ -38,8 +38,6 @@ public class BoardController {
 		if (attachList == null || attachList.size() == 0) {
 			return;
 		}
-		log.info("delete attach files...................");
-		log.info(attachList);
 		attachList.forEach(attach -> {
 			try {
 				Path file = Paths.get(
@@ -57,11 +55,8 @@ public class BoardController {
 	}
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
-		log.info("list..................... : " + cri);
 		model.addAttribute("list", service.getList(cri));
-
 		int total = service.getTotal(cri);
-		log.info("total : " + total);
 		model.addAttribute("pageMaker", new pageDTO(cri, total));
 	}
 
@@ -71,12 +66,9 @@ public class BoardController {
 
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
-		log.info("==========================");
-		log.info("register: " + board);
 		if (board.getAttachList() != null) {
 			board.getAttachList().forEach(attach -> log.info(attach));
 		}
-		log.info("==========================");
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:/board/list";
@@ -84,13 +76,11 @@ public class BoardController {
 
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
-		log.info("/get or Modify");
 		model.addAttribute("board", service.get(bno));
 	}
 
 	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
-		log.info("board : " + board);
 		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -101,7 +91,6 @@ public class BoardController {
 
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
-		log.info("remove..." + bno);
 		List<BoardAttachVO> attachList = service.getAttachList(bno);
 		if (service.remove(bno)) {
 			deleteFiles(attachList);
@@ -113,7 +102,6 @@ public class BoardController {
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
-		log.info("getAttachList " + bno);
 		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
 	}
 
