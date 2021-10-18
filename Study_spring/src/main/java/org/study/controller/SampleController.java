@@ -92,4 +92,23 @@ public class SampleController {
 		log.info("convert.......ticket" + ticket);
 		return ticket;
 	}
+
+	@GetMapping("/all")
+	public void doAll() {
+
+		log.info("do all can access everybody");
+	}
+
+	@GetMapping("/member")
+	public void doMember() {
+
+		log.info("logined member");
+	}
+
+	@GetMapping("/admin")
+	public void doAdmin() {
+
+		log.info("admin only");
+	}
+
 }
