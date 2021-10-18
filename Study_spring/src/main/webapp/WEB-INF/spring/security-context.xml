@@ -7,9 +7,22 @@
 
 	<security:http>
 		<security:form-login />
+		<security:intercept-url pattern="/sample/all"
+			access="permitAll" />
+		<security:intercept-url
+			pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
+
+
 
 	</security:http>
 	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="member" password="member"
+					authorities="ROLE_MEMBER" />
+			</security:user-service>
+		</security:authentication-provider>
+
 
 	</security:authentication-manager>
 </beans>
