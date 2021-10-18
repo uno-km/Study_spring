@@ -2,6 +2,7 @@ package org.study.service;
 
 import java.util.List;
 
+import org.study.domain.BoardAttachVO;
 import org.study.domain.BoardVO;
 import org.study.domain.Criteria;
 
@@ -21,4 +22,6 @@ public interface BoardService {
 	public Integer insertSelectKey(BoardVO board); // 아직추가안됨
 
 	public int getTotal(Criteria cri);
+
+	public List<BoardAttachVO> getAttachList(Long bno);
 }
