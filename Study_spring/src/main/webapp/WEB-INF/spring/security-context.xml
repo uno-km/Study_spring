@@ -10,7 +10,9 @@
 		<security:intercept-url pattern="/sample/all"
 			access="permitAll" />
 		<security:intercept-url
-			pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
+			pattern="/sample/member" access="hasRole('MEMBER')" />
+		<security:intercept-url pattern="/sample/admin"
+			access="hasRole('ADMIN')" />
 
 
 
@@ -19,10 +21,10 @@
 		<security:authentication-provider>
 			<security:user-service>
 				<security:user name="member" password="{noop}member"
-					authorities="ROLE_MEMBER" />
+					authorities="MEMBER" />
+				<security:user name="admin" password="{noop}admin"
+					authorities="MEMBER, ADMIN" />
 			</security:user-service>
 		</security:authentication-provider>
-
-
 	</security:authentication-manager>
 </beans>
