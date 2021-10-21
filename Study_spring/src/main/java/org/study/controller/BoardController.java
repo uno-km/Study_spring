@@ -98,18 +98,38 @@ public class BoardController {
 		model.addAttribute("board", service.get(bno));
 	}
 
+//	@PostMapping("/modify")
+//	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+//		if (service.modify(board)) {
+//			rttr.addFlashAttribute("result", "success");
+//		}
+//		rttr.addAttribute("pageNum", cri.getPageNum());
+//		rttr.addAttribute("amount", cri.getAmount());
+//		return "redirect:/board/list";
+//	}
+	@PreAuthorize("principal.username == #board.writer")
 	@PostMapping("/modify")
-	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+		log.info("modify:" + board);
 		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
 
+//	@PostMapping("/remove")
+//	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
+//		List<BoardAttachVO> attachList = service.getAttachList(bno);
+//		if (service.remove(bno)) {
+//			deleteFiles(attachList);
+//			rttr.addFlashAttribute("result", "success");
+//		}
+//		return "redirect:/board/list" + cri.getListLink();
+//	}
+	@PreAuthorize("principal.username == #writer")
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr, String writer) {
+		log.info("remove..." + bno);
 		List<BoardAttachVO> attachList = service.getAttachList(bno);
 		if (service.remove(bno)) {
 			deleteFiles(attachList);

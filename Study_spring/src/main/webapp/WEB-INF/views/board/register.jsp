@@ -139,29 +139,60 @@
 		}
 		return true;
 	}
-	$("input[type='file']").change(function(e) {
-		var formData = new FormData();
-		var inputFile = $("input[name='uploadFile']");
-		var files = inputFile[0].files;
-		for (var i = 0; i < files.length; i++) {
-			if (!checkExtension(files[i].name, files[i].size)) {
-				return false;
-			}
-			formData.append("uploadFile", files[i]);
-		}
-		$.ajax({
-			url : '/uploadAjaxAction',
-			processData : false,
-			contentType : false,
-			data : formData,
-			type : 'POST',
-			dataType : 'json',
-			success : function(result) {
-				console.log(result);
-				showUploadResult(result); //업로드 결과 처리 함수 
-			}
-		}); //$.ajax
-	});
+	
+	
+// 	$("input[type='file']").change(function(e) {
+// 		var formData = new FormData();
+// 		var inputFile = $("input[name='uploadFile']");
+// 		var files = inputFile[0].files;
+// 		for (var i = 0; i < files.length; i++) {
+// 			if (!checkExtension(files[i].name, files[i].size)) {
+// 				return false;
+// 			}
+// 			formData.append("uploadFile", files[i]);
+// 		}
+// 		$.ajax({
+// 			url : '/uploadAjaxAction',
+// 			processData : false,
+// 			contentType : false,
+// 			data : formData,
+// 			type : 'POST',
+// 			dataType : 'json',
+// 			success : function(result) {
+// 				console.log(result);
+// 				showUploadResult(result); //업로드 결과 처리 함수 
+// 			}
+// 		}); //$.ajax
+// 	});
+
+  var csrfHeaderName ="${_csrf.headerName}"; 
+  var csrfTokenValue="${_csrf.token}";
+  $("input[type='file']").change(function(e){
+    var formData = new FormData();
+    var inputFile = $("input[name='uploadFile']");
+    var files = inputFile[0].files;
+    for(var i = 0; i < files.length; i++){
+      if(!checkExtension(files[i].name, files[i].size) ){
+        return false;
+      }
+      formData.append("uploadFile", files[i]);
+    }
+    $.ajax({
+      url: '/uploadAjaxAction',
+      processData: false, 
+      contentType: false,
+      beforeSend: function(xhr) {
+          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+      },
+      data:formData,
+      type: 'POST',
+      dataType:'json',
+        success: function(result){
+          console.log(result); 
+		  showUploadResult(result); //업로드 결과 처리 함수 
+      }
+    }); //$.ajax
+  });  
 	function showUploadResult(uploadResultArr) {
 		if (!uploadResultArr || uploadResultArr.length == 0) {
 			return;
@@ -204,24 +235,25 @@
 						});
 		uploadUL.append(str);
 	}
-	$(".uploadResult").on("click", "button", function(e) {
-		console.log("delete file");
-		var targetFile = $(this).data("file");
-		var type = $(this).data("type");
-		var targetLi = $(this).closest("li");
-		$.ajax({
-			url : '/deleteFile',
-			data : {
-				fileName : targetFile,
-				type : type
-			},
-			dataType : 'text',
-			type : 'POST',
-			success : function(result) {
-				targetLi.remove();
-			}
-		}); //$.ajax
-	});
+	$(".uploadResult").on("click", "button", function(e){
+	    console.log("delete file");
+	    var targetFile = $(this).data("file");
+	    var type = $(this).data("type");
+	    var targetLi = $(this).closest("li");
+	    $.ajax({
+	      url: '/deleteFile',
+	      data: {fileName: targetFile, type:type},
+	      beforeSend: function(xhr) {
+	          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	      },
+	      dataType:'text',
+	      type: 'POST',
+	        success: function(result){
+	           alert(result);
+	           targetLi.remove();
+	         }
+	    }); //$.ajax
+	   });
 </script>
 </html>
 
