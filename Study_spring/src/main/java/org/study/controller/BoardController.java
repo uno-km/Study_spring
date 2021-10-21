@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,12 +41,12 @@ public class BoardController {
 		}
 		attachList.forEach(attach -> {
 			try {
-				Path file = Paths.get(
-						"C:\\programing\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+				Path file = Paths.get("C:\\programing\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid()
+						+ "_" + attach.getFileName());
 				Files.deleteIfExists(file);
 				if (Files.probeContentType(file).startsWith("image")) {
-					Path thumbNail = Paths.get("C:\\programing\\upload\\" + attach.getUploadPath() + "\\thumb_" + attach.getUuid() + "_"
-							+ attach.getFileName());
+					Path thumbNail = Paths.get("C:\\programing\\upload\\" + attach.getUploadPath() + "\\thumb_"
+							+ attach.getUuid() + "_" + attach.getFileName());
 					Files.delete(thumbNail);
 				}
 			} catch (Exception e) {
@@ -53,6 +54,7 @@ public class BoardController {
 			} // end catch
 		});// end foreachd
 	}
+
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		model.addAttribute("list", service.getList(cri));
@@ -60,15 +62,32 @@ public class BoardController {
 		model.addAttribute("pageMaker", new pageDTO(cri, total));
 	}
 
+//	@GetMapping("/register")
+//	public void register() {
+//	}
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public void register() {
 	}
 
+//	@PostMapping("/register")
+//	public String register(BoardVO board, RedirectAttributes rttr) {
+//		if (board.getAttachList() != null) {
+//			board.getAttachList().forEach(attach -> log.info(attach));
+//		}
+//		service.register(board);
+//		rttr.addFlashAttribute("result", board.getBno());
+//		return "redirect:/board/list";
+//	}
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
+		log.info("==========================");
+		log.info("register: " + board);
 		if (board.getAttachList() != null) {
 			board.getAttachList().forEach(attach -> log.info(attach));
 		}
+		log.info("==========================");
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:/board/list";
