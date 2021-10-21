@@ -5,38 +5,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<bean id="customAccessDenied"
 		class="org.study.security.CustomAccessDeniedHandler"></bean>
 	<bean id="customLoginSuccess"
 		class="org.study.security.CustomLoginSuccessHandler"></bean>
-	<!-- <bean id="customPasswordEncoder" -->
-	<!-- class="org.study.security.CustomNoOpPasswordEncoder"></bean> -->
 	<bean id="bcryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	<!-- <bean id="customLogoutSuccess" -->
-	<!-- class="org.study.security.CustomLogoutSuccessHandler"></bean> -->
 	<bean id="customUserDetailsService"
 		class="org.study.security.CustomUserDetailsService"></bean>
 
-	<security:http auto-config="true" use-expressions="true">
+	<security:http>
 		<security:intercept-url pattern="/sample/all"
 			access="permitAll" />
 		<security:intercept-url
 			pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
 		<security:intercept-url pattern="/sample/admin"
 			access="hasRole('ROLE_ADMIN')" />
-
-
 		<security:access-denied-handler
 			ref="customAccessDenied" />
 		<security:form-login login-page="/customLogin"
 			authentication-success-handler-ref="customLoginSuccess" />
 		<security:logout logout-url="/customLogout"
 			invalidate-session="true" />
+		<security:remember-me
+			data-source-ref="dataSource" token-validity-seconds="2419200" />
+		<security:logout logout-url="/customLogout"
+			invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
 	</security:http>
-
-
 	<security:authentication-manager>
 		<security:authentication-provider
 			user-service-ref="customUserDetailsService">
@@ -44,5 +39,4 @@
 				ref="bcryptPasswordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
-
 </beans>
