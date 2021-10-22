@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <head>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>      
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -237,10 +237,24 @@
 						<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
 						</li>
 						<li class="divider"></li>
-						<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>
-								Logout</a></li>
+						<sec:authorize access="isAuthenticated()">
+
+							<li><a href="/customLogout"><i
+									class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+						</sec:authorize>
+
+						<sec:authorize access="isAnonymous()">
+
+							<li><a href="/customLogin"><i
+									class="fa fa-sign-out fa-fw"></i> Login</a></li>
+						</sec:authorize>
 					</ul> <!-- /.dropdown-user --></li>
 				<!-- /.dropdown -->
+			</ul>
+			<!-- /.navbar-top-links -->
+			<!-- /.dropdown-user -->
+			</li>
+			<!-- /.dropdown -->
 			</ul>
 			<!-- /.navbar-top-links -->
 

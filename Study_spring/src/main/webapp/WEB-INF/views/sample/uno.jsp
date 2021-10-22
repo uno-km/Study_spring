@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>hi</h2>
-	<button>back</button>
+<h1>안녕하세용 김은호입니닷!</h1>
+<input type="text" value ="qwe">
 </body>
 </html>

@@ -22,23 +22,6 @@ var replyService = (function() {
 			}
 		})
 	}
-
-//	function getList(param, callback, error) {
-//
-//		var bno = param.bno;
-//		var page = param.page || 1;
-//
-//		$.getJSON("/replies/pages/" + bno + "/" + page + ".json",
-//				function(data) {
-//					if (callback) {
-//						callback(data);
-//					}
-//				}).fail(function(xhr, status, err) {
-//			if (error) {
-//				error();
-//			}
-//		});
-//	}
 	
 	function getList(param, callback, error) {
 
@@ -58,31 +41,31 @@ var replyService = (function() {
 	      }
 	    });
 	  }
-	
-	
+	  
+	  function remove(rno, replyer, callback, error) {
+		console.log("--------------------------------------");  
+		console.log(JSON.stringify({rno:rno, replyer:replyer}));  
+	    $.ajax({
+	      type : 'delete',
+	      url : '/replies/' + rno,
+	      data:  JSON.stringify({rno:rno, replyer:replyer}),
+	      contentType: "application/json; charset=utf-8",
+	      success : function(deleteResult, status, xhr) {
+	        if (callback) {
+	          callback(deleteResult);
+	        }
+	      },
+	      error : function(xhr, status, er) {
+	        if (error) {
+	          error(er);
+	        }
+	      }
+	    });
+	  }
 
-	
-	function remove(rno, callback, error) {
-		$.ajax({
-			type : 'delete',
-			url : '/replies/' + rno,
-			success : function(deleteResult, status, xhr) {
-				if (callback) {
-					callback(deleteResult);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		});
-	}
 
 	function update(reply, callback, error) {
-
 		console.log("RNO: " + reply.rno);
-
 		$.ajax({
 			type : 'put',
 			url : '/replies/' + reply.rno,
